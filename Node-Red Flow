@@ -1,0 +1,331 @@
+[
+    {
+        "id": "5a3afe25.04427",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e705c949.4c1238",
+        "type": "ibmiot in",
+        "z": "5a3afe25.04427",
+        "authentication": "apiKey",
+        "apiKey": "9388d69f.87e2d8",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "987654321",
+        "applicationId": "",
+        "deviceType": "nodemcu",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "registered",
+        "allDevices": "",
+        "allApplications": "",
+        "allDeviceTypes": "",
+        "allLogicalInterfaces": "",
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 90,
+        "y": 300,
+        "wires": [
+            [
+                "ab4fa7e2.9ff018",
+                "4ea654a1.b758ec",
+                "7ad270e7.c6e06"
+            ]
+        ]
+    },
+    {
+        "id": "511de4d5.bb058c",
+        "type": "debug",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 730,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "7ad270e7.c6e06",
+        "type": "function",
+        "z": "5a3afe25.04427",
+        "name": "temperature",
+        "func": "msg.payload=msg.payload.d.temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "60e32687.8d0588",
+                "511de4d5.bb058c"
+            ]
+        ]
+    },
+    {
+        "id": "60e32687.8d0588",
+        "type": "ui_gauge",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "group": "e610ec5.a016b1",
+        "order": 4,
+        "width": 12,
+        "height": 7,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "DC",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 730,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8cf942dc.ee0d3",
+        "type": "http request",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": false,
+        "url": "api.openweathermap.org/data/2.5/weather?q=Hyderabad, IN&appid=3239928487eccbfc7fb7c22c822d2637",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 490,
+        "y": 440,
+        "wires": [
+            [
+                "511de4d5.bb058c"
+            ]
+        ]
+    },
+    {
+        "id": "72e53f0.c5583c",
+        "type": "inject",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 210,
+        "y": 460,
+        "wires": [
+            [
+                "8cf942dc.ee0d3"
+            ]
+        ]
+    },
+    {
+        "id": "4ea654a1.b758ec",
+        "type": "function",
+        "z": "5a3afe25.04427",
+        "name": "humidity",
+        "func": "msg.payload=msg.payload.d.humidity\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 300,
+        "wires": [
+            [
+                "63c32e8f.07474",
+                "511de4d5.bb058c"
+            ]
+        ]
+    },
+    {
+        "id": "3d8e5e2f.1c3b52",
+        "type": "ibmiot out",
+        "z": "5a3afe25.04427",
+        "authentication": "apiKey",
+        "apiKey": "9388d69f.87e2d8",
+        "outputType": "cmd",
+        "deviceId": "987654321",
+        "deviceType": "nodemcu",
+        "eventCommandType": "agri",
+        "format": "json",
+        "data": "data",
+        "qos": 0,
+        "name": "IBM IoT",
+        "service": "registered",
+        "x": 660,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "8b55926b.bf9aa",
+        "type": "ui_button",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "group": "e610ec5.a016b1",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "MOTOR ON",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "{\"command\":\"motoron\"}",
+        "payloadType": "json",
+        "topic": "",
+        "x": 430,
+        "y": 600,
+        "wires": [
+            [
+                "3d8e5e2f.1c3b52"
+            ]
+        ]
+    },
+    {
+        "id": "657114cf.b93f0c",
+        "type": "ui_button",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "group": "e610ec5.a016b1",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "MOTOR OFF",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "{\"command\":\"motoroff\"}",
+        "payloadType": "json",
+        "topic": "",
+        "x": 440,
+        "y": 680,
+        "wires": [
+            [
+                "3d8e5e2f.1c3b52"
+            ]
+        ]
+    },
+    {
+        "id": "63c32e8f.07474",
+        "type": "ui_gauge",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "group": "e610ec5.a016b1",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 740,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ab4fa7e2.9ff018",
+        "type": "function",
+        "z": "5a3afe25.04427",
+        "name": "soil Moisture",
+        "func": "msg.payload=msg.payload.d.objectTemp;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "511de4d5.bb058c",
+                "a983d6e.cd7b228"
+            ]
+        ]
+    },
+    {
+        "id": "a983d6e.cd7b228",
+        "type": "ui_gauge",
+        "z": "5a3afe25.04427",
+        "name": "",
+        "group": "e610ec5.a016b1",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "Soil Moisture",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 750,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "9388d69f.87e2d8",
+        "type": "ibmiot",
+        "z": "",
+        "name": "",
+        "keepalive": "60",
+        "serverName": "",
+        "cleansession": true,
+        "appId": "",
+        "shared": false
+    },
+    {
+        "id": "e610ec5.a016b1",
+        "type": "ui_group",
+        "z": "",
+        "name": "IOT",
+        "tab": "6233bfcd.a6688",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": true
+    },
+    {
+        "id": "6233bfcd.a6688",
+        "type": "ui_tab",
+        "z": "",
+        "name": "SmartAgriculture",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
